@@ -8,6 +8,9 @@ namespace PersonLookup.WebApp.Controllers
     [ApiController]
     public class PersonController : Controller
     {
+        /// <summary>
+        /// Ideally this would be in a database, but it's not in requirements.. so...
+        /// </summary>
         public static List<Person> HardCodedPeople = new List<Person>
         {
             new Person {Id = "1", Name = "John Doe"},

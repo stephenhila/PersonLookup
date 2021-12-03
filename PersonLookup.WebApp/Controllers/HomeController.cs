@@ -54,6 +54,21 @@ namespace PersonLookup.WebApp.Controllers
             return model;
         }
 
+        public async Task<IActionResult> PeopleList()
+        {
+            List<Person> people;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:7149/api/person"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    people = JsonConvert.DeserializeObject<List<Person>>(apiResponse);
+                }
+            }
+
+            return PartialView(people);
+        }
+
         public IActionResult Privacy()
         {
             return View();
