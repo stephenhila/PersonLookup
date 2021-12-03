@@ -1,0 +1,14 @@
+﻿@model List<Person>
+<table id="tablePeople" class="d-md-table">
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+    </tr>
+    @foreach (var person in Model)
+    {
+        <tr>
+            <td>@person.Id</td>
+            <td>@person.Name</td>
+        </tr>
+    }
+</table>

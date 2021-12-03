@@ -1,0 +1,48 @@
+﻿@model IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section class="text-left">
+    <h1>People List</h1>
+
+    <div id="divPeopleList">
+        @await Html.PartialAsync("PeopleList", Model.People)
+    </div>
+</section>
+
+@using (Html.BeginForm("Add","Home",FormMethod.Post,new { id="formNewPerson"}))
+{
+    <label>Id</label>
+    @Html.EditorFor(model => model.NewPerson.Id)
+    <label>Name</label>
+    @Html.EditorFor(model => model.NewPerson.Name)
+    <input type="submit" value="Submit" />
+}
+
+<script type="text/javascript">
+    $("#buttonSubmit").click(
+        function ()
+        {
+            var newPerson = {
+                Id: $("inputId").val(),
+                Name: $("inputName").val()
+            };
+        }
+    );
+
+    $(function(){
+       $("#formNewPerson").submit(function(e){
+           e.preventDefault();  //prevent normal form submission
+
+           var actionUrl = $(this).attr("action");  // get the form action value
+           $.post(actionUrl ,$(this).serialize(),function(res){
+              //res is the response coming from our ajax call. Use this to update DOM
+              //$('#divPeopleList').load('@Url.Action("UserDetails","User")');
+              //$('#divPeopleList').load('@Url.Action("Index","Home")');
+              $('#divPeopleList').html(res.NewPerson);
+           });
+       });
+    });
+</script>
