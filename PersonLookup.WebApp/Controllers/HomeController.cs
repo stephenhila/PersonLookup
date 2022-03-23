@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PersonLookup.WebApp.Models;
 using System.Diagnostics;
@@ -17,7 +18,15 @@ namespace PersonLookup.WebApp.Controllers
             _clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
         }
 
+        [Route("home")]
         public async Task<IActionResult> Index()
+        {
+            return View();
+        }
+
+        [Route("home/people")]
+        [Authorize]
+        public async Task<IActionResult> PeopleIndex()
         {
             List<Person> people;
             using (var httpClient = new HttpClient())
@@ -29,12 +38,12 @@ namespace PersonLookup.WebApp.Controllers
                 }
             }
 
-            return View(new IndexModel { People = people });
+            return View(new PeoplePageViewModel { People = people });
         }
 
         [HttpPost()]
         [ValidateAntiForgeryToken]
-        public async Task<IndexModel> Add(IndexModel model)
+        public async Task<PeoplePageViewModel> Add(PeoplePageViewModel model)
         {
             Person personFromResponse = null;
 

@@ -1,0 +1,46 @@
+﻿@model PeoplePageViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section class="text-left">
+    <h1>People List</h1>
+
+    @*this is the <div> that will be refreshed constantly after
+        each added person in the list*@
+    <div id="divPeopleList">
+        @await Html.PartialAsync("PeopleList", Model.People)
+    </div>
+</section>
+
+@using (Html.BeginForm("Add","Home",FormMethod.Post,new { id="formNewPerson"}))
+{
+    <label>Id</label>
+    @Html.EditorFor(model => model.NewPerson.Id)
+    <label>Name</label>
+    @Html.EditorFor(model => model.NewPerson.Name)
+    <input type="submit" value="Submit" />
+}
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#formNewPerson").submit(function (e) {
+            // prevent the form from going to home/add URL because.. 
+            // there's none that exists..
+            e.preventDefault();
+
+            // instead, update <div id="divPeopleList"> based on a controller 
+            // method returning a refreshed value partial view
+            var actionUrl = $(this).attr("action");
+            $.post(actionUrl, $(this).serialize(), function (res) {
+                window.alert(JSON.stringify(res.newPerson));
+                $('#divPeopleList').load('@Url.Action("PeopleList","Home")');
+            });
+        });
+    });
+
+    //note: ideally this would be on other script files but for purposes
+    // of demo this script is within this cshtml for faster checking
+</script>

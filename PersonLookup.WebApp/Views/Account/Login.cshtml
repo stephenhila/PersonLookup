@@ -1,0 +1,44 @@
+﻿@model LoginViewModel
+
+@using (Html.BeginForm())  
+{  
+    <div class="bs-example" >
+  
+        <div class="form-group centerlook">  
+            <h1> Login </h1>  
+        </div>  
+        <div class="form-group centerlook">  
+            <label>Username:</label>  
+            @Html.EditorFor(model => model.Username)
+            @Html.ValidationMessageFor(model => model.Username)  
+        </div>  
+        <div class="form-group centerlook">  
+            <label>Password:</label>  
+            @Html.PasswordFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)  
+  
+        </div>  
+        <div class="form-group centerlook">  
+            @Html.CheckBoxFor(model => model.RememberMe)
+            <label>Remember Me</label>    
+        </div>  
+        <div class="form-group error">  
+            @if (@ViewBag.Failedcount != null)  
+            {  
+  
+                <label> Failed Attempt count is: @ViewBag.Failedcount</label>  
+            }  
+  
+            @if (@ViewBag.NotValidUser != null)  
+            {  
+  
+                <label> @ViewBag.NotValidUser</label>  
+            }  
+        </div>  
+        <div class="loginbtn">  
+  
+            <input type="submit" value="Login" class="btn btn-primary" />  
+  
+        </div>  
+    </div>  
+}

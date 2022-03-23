@@ -1,6 +1,6 @@
 ﻿namespace PersonLookup.WebApp.Models
 {
-    public class IndexModel
+    public class PeoplePageViewModel
     {
         public List<Person> People { get; set; } = new List<Person>();
 

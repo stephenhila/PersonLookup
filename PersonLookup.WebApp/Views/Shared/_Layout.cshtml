@@ -13,6 +13,16 @@
     @await RenderSectionAsync("Scripts", required: false)
 </head>
 <body>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h3>Hi @User.Identity.Name!</h3>
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-primary">Logout</a>
+    }
+    else
+    {
+        <h3>Intruder detected!! Please identify yourself!!!</h3>
+        <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Identify one's self</a>
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
